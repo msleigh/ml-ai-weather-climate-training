@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+        files: ^pyproject\.toml$
+  - repo: https://github.com/jackdewinter/pymarkdown
+    rev: v0.9.34
+    hooks:
+      - id: pymarkdown
+        types: [markdown]
+        args:
+          [
+            "-d",
+            "MD022,MD012",
+            "--set",
+            "plugins.md007.indent=$#4",
+            "--set",
+            "plugins.md013.line_length=$#192",
+            "--set",
+            "plugins.md013.heading_line_length=$#192",
+            "--set",
+            "plugins.md013.code_block_line_length=$#192",
+            "scan",
+          ]

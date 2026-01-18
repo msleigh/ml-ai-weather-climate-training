@@ -1,0 +1,3 @@
+[submodule "e-ai_ml2"]
+	path = e-ai_ml2
+	url = https://github.com/eumetnet-e-ai/e-ai_ml2
