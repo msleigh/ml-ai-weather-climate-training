@@ -121,7 +121,8 @@ uv sync
 ### Fortran integration via `ctypes`
 
 - Calling compiled code from Python
-- Form of language binding in Python that can load C functions from shared libs or DLLs on the fly
+- `ctypes`: language binding in Python that can load C functions from shared libs or DLLs on the fly
+- `pybind11` - modern C++ bindings
 
 ## ecCodes, GRIB, Open Data, NetCDF, Visualisation
 
