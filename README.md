@@ -56,7 +56,92 @@ uv sync
 
 ### Jupyter notebooks
 
+- Use in a venv; if `pip`-installing extra packages _within_ the notebook, use:
 
+  ```python
+  %pip install package-name
+  ```
+
+  to guarantee the correct environment, rather than:
+
+  ```python
+  !pip install package-name
+  ```
+
+  which uses the system `pip`.
+- This:
+
+  ```python
+  import sys
+  !{sys.executable} -m pip install package_name
+  ```
+
+  does the same less concisely.
+- Remote notebooks:
+  - On remote machine:
+
+    ```bash
+    mkdir test-remote-notebook
+    cd test-remote-notebook
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python3 -m pip install --upgrade pip jupyterlab
+    jupyter lab --no-browser --port=8888
+    ```
+
+  - Note the port actually used (might not be 8888)
+  - If necessary note the token from the output, or check using either of:
+
+    ```bash
+    jupyter lab list
+    jupyter server list
+    ```
+
+  - On local machine, set up SSH tunnel and open in browser:
+
+    ```bash
+    ssh -N -L 9001:localhost:8888 user@remote-host &
+    open http://localhost:9001<?token=...>
+    ```
+
+- List magic commands:
+
+  ```python
+  %lsmagic
+  ```
+
+- Capture output of a cell (suppress display):
+
+  ```python
+  %%capture
+  ```
+
+- Auto-reload imported modules on change:
+
+  ```python
+  %load_ext autoreload
+  %autoreload 2
+  ```
+
+  Set to 1 to reload only modules imported with `%aimport` (where `%aimport` is used to specify which modules to autoreload).
+- Enable Mermaid diagrams (using using a `%%mermaid` cell magic):
+
+  ```python
+  %load_ext mermaid_magic
+  ```
+
+- Enable JS diagrammers (e.g. for plotting neural networks):
+
+  ```python
+  %load_ext nb_js_diagrammers
+  ```
+
+  (Mermaid but also Flowchart.js, D3, etc.) Use this for multiple diagram types including Mermaid (in which case `%%mermaid_magic` not needed).
+- If using `%pip install -e` in a Jupyter notebook, you must restart the kernel afterwards.
+  - Editable installs work by creating `.pth` files that add source paths to `sys.path`
+  - Python only processes `.pth` files once at startup
+  - A running kernel won't see new paths until restarted
+  - Non-editable packages work immediately because they install directly into `site-packages/`, which is already in `sys.path`
 
 ### APIs and API design
 
