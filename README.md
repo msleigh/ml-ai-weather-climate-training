@@ -8,6 +8,7 @@
 
 Provided by the virtual environment setup:
 
+- Pip
 - PyTorch
 - NumPy
 - Matplotlib
