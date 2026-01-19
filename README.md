@@ -231,6 +231,17 @@ uv sync
   - Enables detailed diagnostic studies to be carried out on performance of assimilation and observing systems
   - Feedback files used as input to periodic offline bias correction updates
 
+### GPU access in practice
+
+- Python backends
+    - CUDA (NVIDIA)
+    - MPS / Metal (Apple)
+    - CPU fallback (always available)
+- Development vs. production
+    - Development: local machine, laptop with discrete GPU or Apple Silicon
+    - Production: cloud VM with GPU, or on-prem HPC with GPU nodes
+    - Code *must be portable across backends and environments*
+
 ## Basics of Artificial Intelligence and Machine Learning
 
 ### Core AI and ML concepts
