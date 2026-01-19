@@ -56,7 +56,59 @@ uv sync
 
 ### Jupyter notebooks
 
+- Use in a venv; if `pip`-installing extra packages _within_ the notebook, use:
 
+  ```python
+  %pip install package-name
+  ```
+
+  to guarantee the correct environment, rather than:
+
+  ```python
+  !pip install package-name
+  ```
+
+  which uses the system `pip`.
+- This:
+
+  ```python
+  import sys
+  !{sys.executable} -m pip install package_name
+  ```
+
+  does the same less concisely.
+- Remote notebooks:
+  - On remote machine:
+
+    ```bash
+    mkdir test-remote-notebook
+    cd test-remote-notebook
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python3 -m pip install --upgrade pip jupyterlab
+    jupyter lab --no-browser --port=8888
+    ```
+
+  - Note the port actually used (might not be 8888)
+  - If necessary note the token from the output, or check using either of:
+
+    ```bash
+    jupyter lab list
+    jupyter server list
+    ```
+
+  - On local machine, set up SSH tunnel and open in browser:
+
+    ```bash
+    ssh -N -L 9001:localhost:8888 user@remote-host &
+    open http://localhost:9001<?token=...>
+    ```
+
+- List magic commands:
+
+  ```python
+  %lsmagic
+  ```
 
 ### APIs and API design
 

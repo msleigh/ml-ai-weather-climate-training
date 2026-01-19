@@ -30,3 +30,7 @@ repos:
             "plugins.md013.code_block_line_length=$#192",
             "scan",
           ]
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.9.0
+    hooks:
+      - id: nbstripout
