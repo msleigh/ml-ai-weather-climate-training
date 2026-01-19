@@ -159,9 +159,18 @@ uv sync
 
 ## ecCodes, GRIB, Open Data, NetCDF, Visualisation
 
+- GRIB is message-based, not "one tidy array per file"; typically select messages by metadata keys
+- Alternatives:
+    - NetCDF (human readable, more widely used, tool support)
+    - Zarr (chunked, cloud-native, parallel access; ML-friendly)
+- GRIB advantages
+    - Operational standard for weather data exchange
+    - Encoding efficient still(?) unmatched
+
 ### ICON GRIB files from DWD open data
 
-- GRIB is message-based, not "one tidy array per file". Typically select messages by metadata keys
+### ecCodes GRIB library
+
 - ecCodes: core library/tooling for decoding/encoding GRIB/BUFR
 - In Python, use either:
   - [`eccodes-python`][eccodes-py] (low/mid-level bindings), or
@@ -173,10 +182,32 @@ uv sync
 - `cfgrib`: Python interface to map GRIB files to NetCDF Common Data Model following CF Convention using ecCodes
 - A GRIB file contains many messages; you filter by keys (parameter, level, time, grid), then pull values
 - The difference in general: NetCDF more "dataset-like"; GRIB more "bulletin/message-like"
+- Alternatives
+  - `xarray` with `cfgrib` engine:
 
-### ecCodes GRIB library
+    ```python
+    import xarray as xr
+    ds = xr.open_dataset('file.grib2',engine='cfgrib')
+    ```
 
+  - Use `cdo` to convert GRIB to NetCDF if needed:
 
+    ```bash
+    cdo -f nc copy input.grib output.nc
+    ```
+
+  - Will have to regrid anything not on a regular grid (e.g. native IFS data in reduced Gaussian or cubic octohedral) to convert to NetCDF
+  - Soon `cfgrib` will be discontinued in favour of EarthKit:
+
+    ```python
+    import earthkit as ek
+    ds = ek.data.from_source("file", "my_data.grib")
+    xs = ds.to_xarray()
+
+    # or equivalently:
+
+    ds = xr.open_dataset('file.grib2', engine='earthkit')
+    ```
 
 ### SYNOP observations from NetCDF
 
@@ -191,16 +222,13 @@ uv sync
 
 - AIREP: aircraft reports
   - Weather observations from aircraft in flight
-  - Majority of AIREPs report wind and temperature at selected intervals along
-    the flight route
-  - Some aircraft equipped with sensors for humidity/water vapour, turbulence,
-    icing
+  - Majority of AIREPs report wind and temperature at selected intervals along the flight route
+  - Sampling follows air traffic routes, highly inhomogeneous horizontal coverage
+  - Some aircraft equipped with sensors for humidity/water vapour, turbulence, icing
 - Feedback file
   - After assimilation step a feedback file is created
-  - Contains all relevant information regarding use and impact of observations
-    in the assimilation
-  - Enables detailed diagnostic studies to be carried out on performance of
-    assimilation and observing systems
+  - Contains all relevant information regarding use and impact of observations in the assimilation
+  - Enables detailed diagnostic studies to be carried out on performance of assimilation and observing systems
   - Feedback files used as input to periodic offline bias correction updates
 
 ## Basics of Artificial Intelligence and Machine Learning
