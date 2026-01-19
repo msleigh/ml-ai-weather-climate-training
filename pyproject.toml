@@ -9,8 +9,8 @@ dependencies = [
     "eccodes>=2.45.0",
     "jupyterlab>=4.5.2",
     "matplotlib>=3.10.8",
-    "numpy<2",
-    "torch==2.0.1",
+    "numpy>=2.4.0",
+    "torch>=2.9.1",
     "requests>=2.32.5",
-    "torchvision>=0.15.2",
+    "torchvision>=0.24.1",
 ]
