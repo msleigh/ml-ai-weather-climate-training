@@ -112,7 +112,9 @@ uv sync
 
 ### APIs and API design
 
-
+- APIs as a scaling principle
+  - Systems can grow without rewrites
+  - Shift complexity behind a stable boundary
 
 ### API requests using `requests`
 
