@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "ML and AI for Weather, Climate and Environment Training"
 readme = "README.md"
 requires-python = "==3.11.*"
+# Older versions of PyTorch and NumPy required for Intel CPUs
 dependencies = [
     "eccodes>=2.45.0",
     "jupyterlab>=4.5.2",

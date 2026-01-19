@@ -8,8 +8,8 @@
 
 Provided by the virtual environment setup:
 
-- PyTorch
-- NumPy
+- PyTorch (older version pinned for compatibility with Intel Mac)
+- NumPy (older version pinned for compatibility with PyTorch)
 - Matplotlib
 - Jupyterlab
 - requests
