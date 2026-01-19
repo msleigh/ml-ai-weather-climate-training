@@ -809,7 +809,17 @@ Given a corpus of text:
 ### Interplay of human insight, modelling and machine learning
 
 
+## Licence and copyright
 
+Original course material © Roland Potthast and contributors, 2025–2026. [Creative Commons Attribution 4.0 International][cc-by]
+![CC](https://mirrors.creativecommons.org/presskit/icons/cc.svg)
+![BY](https://mirrors.creativecommons.org/presskit/icons/by.svg)
+
+Additional material © 2026 by M Sleigh is licensed under [Creative Commons Attribution 4.0 International][cc-by]
+![CC](https://mirrors.creativecommons.org/presskit/icons/cc.svg)
+![BY](https://mirrors.creativecommons.org/presskit/icons/by.svg)
+
+[cc-by]: https://creativecommons.org/licenses/by/4.0/
 [eccodes-py]: https://github.com/ecmwf/eccodes-python
 [pygrib]: https://jswhit.github.io/pygrib/
 [cfgrib]: https://github.com/ecmwf/cfgrib
