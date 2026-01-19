@@ -253,17 +253,16 @@ uv sync
 - Primarily an $n$-dimensional array (like NumPy’s `ndarray`) plus:
   - `dtype` (`float32`, `float64`, etc.)
   - device (CPU/GPU)
-  - optional gradient tracking (`requires_grad=True`)
+  - optional gradient tracking (`requires_grad=True`) - i.e. differentiable
   - library of vectorised ops, broadcasting, indexing, etc.
 - Deep learning uses lots of multi-indexed quantities: batches × channels × height × width, sequences × features, ...
   - Calling them "tensors" convenient shorthand for "high-dimensional array"
-- Treat `torch.Tensor` as an efficient array with autograd.
+- Treat `torch.Tensor` as an efficient array with automaticx differentiation
 - "Gradient tracking" (autograd) means the tensor can participate in automatic differentiation
   - I.e. so PyTorch can compute derivatives of a scalar loss with respect to that tensor
 - Create tensor with `requires_grad=True`, and PyTorch will then:
   - Record the operations applied to it (a computation graph),
-  - Then (when you call `.backward()` on a scalar result, typically the loss)
-    use the chain rule to compute gradients, e.g. for tensor $x$:
+  - Then (when you call `.backward()` on a scalar result, typically the loss) use chain rule to compute gradients, e.g. for tensor $x$:
     $$
     \frac{\partial}{\partial x} \mathrm{loss}
     $$
@@ -271,6 +270,23 @@ uv sync
 - Leaf tensors are those created by the user (not results of operations)
   - Only leaf tensors with `requires_grad=True` will have their `.grad` populated during backpropagation
   - Intermediate tensors will only keep gradients if you call `.retain_grad()` on them
+
+### Data handling
+
+- Training uses batches
+- PyTorch's `DataLoader` provides:
+    - Batching
+    - Shuffling (optional but recommended)
+    - Parallel loading (where Zarr comes in, with chunked data)
+- Experience shows batches more efficient than single samples or full dataset
+- "Features": ML terminology for input values
+- "Labels": ML terminology for output/target values
+- $N$ is number of samples in batch
+- $d$ is number of features per sample
+- $N \times d$ tensor for batch of $N$ samples, each with $d$ features
+- For labels:
+    - $N$-vector for regression (one target per sample)
+    - $k$ is the number of labels for each output
 
 ### PyTorch fundamentals: model, loss, optimiser
 
@@ -287,6 +303,19 @@ uv sync
 - `nn.Module`: base class for models and layers
   - Holds parameters (weights/biases) and allows composition of layers as Python attributes
   - Calling `model(x)` runs its `forward()`
+
+- Model:
+
+  $$
+  \hat{y} = W_2 \sigma(W_1 x + b_1) + b_2
+  $$
+
+  where:
+
+  - $W_1$, $b_1$, $W_2$, $b_2$ are parameters (weights and biases)
+  - $\sigma$ is activation function
+  - $x$ is input
+  - $\hat{y}$ is prediction
 
 - Forward pass: compute predictions from inputs, e.g. `y_pred = model(x)`
   - Builds autograd graph (if grads enabled)
@@ -837,7 +866,8 @@ Given a corpus of text:
 
 ### Zarr and ERA datasets
 
-
+- Zarr is chunked for parallel access
+    - Designed for object storage / cloud native
 
 ### Icosahedral graph construction
 
