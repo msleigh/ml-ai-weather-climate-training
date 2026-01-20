@@ -174,15 +174,19 @@ uv sync
     ```
 
 ![IFS mean sea-level pressure from GRIB](assets/images/grib_plot_with_eccodes_ifs_pressure.png "IFS mean sea-level pressure from GRIB")
+
 _Figure: IFS mean sea-level pressure field plotted from a GRIB file using ecCodes._
 
 ![IFS 2m temperature from GRIB](assets/images/grib_plot_with_eccodes_ifs_t2m.png)
+
 _Figure: IFS 2m temperature field loaded from GRIB and plotted via ecCodes._
 
 ![ICON 2m temperature (global interpolation)](assets/images/grib_plot_with_eccodes_icon_t2m_global_interp.png)
+
 _Figure: ICON 2m temperature interpolated to a global grid._
 
 ![ICON 2m temperature (Germany interpolation)](assets/images/grib_plot_with_eccodes_icon_t2m_germany_interp.png)
+
 _Figure: ICON 2m temperature interpolated over Germany._
 
 ### SYNOP observations from NetCDF
@@ -195,21 +199,27 @@ _Figure: ICON 2m temperature interpolated over Germany._
   - Operational exchange moving from alphanumeric SYNOP code towards BUFR (table-driven format)
 
 ![SYNOP temperature (EuroPP projection)](assets/images/synop_temp_EuroPP.png)
+
 _Figure: SYNOP temperature observations in EuroPP projection._
 
 ![SYNOP temperature (geostationary projection)](assets/images/synop_temp_Geostationary.png)
+
 _Figure: SYNOP temperature observations in a geostationary projection._
 
 ![SYNOP temperature (Mercator projection)](assets/images/synop_temp_Mercator.png)
+
 _Figure: SYNOP temperature observations in Mercator projection._
 
 ![SYNOP temperature (Plate Carree projection)](assets/images/synop_temp_PlateCarree.png)
+
 _Figure: SYNOP temperature observations in Plate Carree projection._
 
 ![SYNOP temperature (stereographic projection)](assets/images/synop_temp_Stereographic.png)
+
 _Figure: SYNOP temperature observations in a stereographic projection._
 
 ![SYNOP temperature (Transverse Mercator projection)](assets/images/synop_temp_TransverseMercator.png)
+
 _Figure: SYNOP temperature observations in Transverse Mercator projection._
 
 ### AIREP feedback file analysis
@@ -226,6 +236,7 @@ _Figure: SYNOP temperature observations in Transverse Mercator projection._
   - Feedback files used as input to periodic offline bias correction updates
 
 ![AIREP observation sample plot](assets/images/airep.png)
+
 _Figure: Example AIREP aircraft observations plotted from feedback data._
 
 ### GPU access in practice
@@ -427,15 +438,19 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
 - Deep / narrow networks can learn hierarchical features more efficiently
 
 ![Deep neural network fit](assets/images/deep_nn_results.png)
+
 _Figure: Example deep neural network fit on sample data._
 
 ![Shallow vs deep network comparison](assets/images/shallow_vs_deep.png)
+
 _Figure: Comparison of shallow and deep network decision boundaries._
 
 ![Shallow vs deep training loss](assets/images/shallow_vs_deep_loss.png)
+
 _Figure: Training loss curves for shallow vs deep networks._
 
 ![Shallow vs deep gradient flow](assets/images/shallow_vs_deep_gradients.png)
+
 _Figure: Gradient magnitudes across layers for shallow vs deep networks._
 
 ### Graph neural networks
@@ -461,18 +476,23 @@ _Figure: Gradient magnitudes across layers for shallow vs deep networks._
   - Physical structure: can encode known relationships via edges (adjacency, distance, flow direction)
 
 ![GNN graph illustration](assets/images/gnn_graph.png)
+
 _Figure: Example graph topology used for GNN message passing._
 
 ![GNN graph connectivity](assets/images/gnn_graph_connectivity.png)
+
 _Figure: Example graph connectivity structure for neighborhood definition._
 
 ![GNN training loss curve](assets/images/gnn_loss_curve.png)
+
 _Figure: Training loss curve for a sample GNN run._
 
 ![GNN test result 1](assets/images/gnn_test_1.png)
+
 _Figure: GNN test output example 1._
 
 ![GNN test result 2](assets/images/gnn_test_2.png)
+
 _Figure: GNN test output example 2._
 
 - Variants:
@@ -514,6 +534,7 @@ _Figure: GNN test output example 2._
     - different regimes
 
 ![CNN test predictions](assets/images/cnn_test_predictions.png)
+
 _Figure: Example CNN test predictions on function-classification inputs._
 
 ### LSTM-based anomaly detection in sensor data
@@ -545,9 +566,11 @@ _Figure: Example CNN test predictions on function-classification inputs._
 - LSTM anomaly detection treats sensor stream as time series and uses LSTM to learn normal temporal behaviour
 
 ![LSTM anomaly detection](assets/images/lstm_anomaly_detection.png)
+
 _Figure: LSTM-based anomaly detection on sensor time series data._
 
 ![LSTM anomaly detection samples](assets/images/lstm_anomaly_detection_samples.png)
+
 _Figure: Sample anomaly detection outputs highlighting detected events._
 
 ## Large Language Models
