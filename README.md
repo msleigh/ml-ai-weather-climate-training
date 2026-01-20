@@ -402,18 +402,53 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
     - Softmax for multi-class classification output
   - Experiment with different activations if training is unstable or performance poor
 
+---
+
+- Network structure defines the inductive framework
+  - Learning is constrained by connectivity
+
+- CNN - convolution $K \star x$
+- GNN - sparse matrix
+
 ### Feed-forward networks
 
-- Data flows from input to output without loops (no recurrence)
+- Data flows strictly from input to output without loops (no recurrence) - DAG
+- No memory (i.e. no state carried between inputs)
 - E.g. multi-layer perceptron (MLP), CNN, transformer
 - Stacks of linear layers and non-linear activations
 - Works on fixed-size feature vectors
-- Strong for tabular features and simple classification/regression
+- Strong for tabular features and simple classification, regression, function approximation
+- Affine transformations followed by non-linear activations
+- Each added layer add to the expressive power (i.e. model's ability to approximate complex functions)
+- Model's capacity is determined by number of layers and units per layer
+  - Number of parameters grows with depth and width
+  - Network depth (number of layers)
+  - Width (units per layer)
+- Risk of overfitting with too much capacity relative to data
+- Shallow / wide networks can approximate any function (universal approximation theorem)
+- Deep / narrow networks can learn hierarchical features more efficiently
+
+![Deep neural network fit](assets/images/deep_nn_results.png)
+_Figure: Example deep neural network fit on sample data._
+
+![Shallow vs deep network comparison](assets/images/shallow_vs_deep.png)
+_Figure: Comparison of shallow and deep network decision boundaries._
+
+![Shallow vs deep training loss](assets/images/shallow_vs_deep_loss.png)
+_Figure: Training loss curves for shallow vs deep networks._
+
+![Shallow vs deep gradient flow](assets/images/shallow_vs_deep_gradients.png)
+_Figure: Gradient magnitudes across layers for shallow vs deep networks._
 
 ### Graph neural networks
 
 - Designed for data that lives on a graph (set of nodes connected by edges)
+  - Data points are not independent (e.g. spatial grids, social networks, molecules)
 - Good for irregular meshes (e.g. icosahedral grids), sparse observations, and networks
+- Graph: $G = (V, E)$ with nodes $V$ and edges $E$ (nodes are entites, edges are relationships)
+- Node data: each node has features/attributes, $x_i$ for node $i$
+  - May be phyusical states, e.g. temperature, pressure at grid point
+- Labels $y_i$
 - Aggregate information from neighbours
 - Message-passing framework: nodes send/receive messages to/from neighbours, update states:
   - Each node $i$ has a vector of features, $h_i$
@@ -426,6 +461,22 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
   - Spherical geometry: graph connectivity can represent neighbours on the sphere without pole issues
   - Sparse observations: stations/aircraft/sensors form naturally irregular networks; can treat stations as nodes and connect by proximity
   - Physical structure: can encode known relationships via edges (adjacency, distance, flow direction)
+
+![GNN graph illustration](assets/images/gnn_graph.png)
+_Figure: Example graph topology used for GNN message passing._
+
+![GNN graph connectivity](assets/images/gnn_graph_connectivity.png)
+_Figure: Example graph connectivity structure for neighborhood definition._
+
+![GNN training loss curve](assets/images/gnn_loss_curve.png)
+_Figure: Training loss curve for a sample GNN run._
+
+![GNN test result 1](assets/images/gnn_test_1.png)
+_Figure: GNN test output example 1._
+
+![GNN test result 2](assets/images/gnn_test_2.png)
+_Figure: GNN test output example 2._
+
 - Variants:
   - GCN (Graph Convolutional Network):
   - GraphSAGE
@@ -464,6 +515,9 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
     - “front-like structure present” vs “not present”
     - different regimes
 
+![CNN test predictions](assets/images/cnn_test_predictions.png)
+_Figure: Example CNN test predictions on function-classification inputs._
+
 ### LSTM-based anomaly detection in sensor data
 
 - LSTM: Long Short-Term Memory network
@@ -491,6 +545,12 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
     $$
     where $h_t$ is hidden state, $o_t$ is output gate, $\tanh$ is hyperbolic tangent activation function
 - LSTM anomaly detection treats sensor stream as time series and uses LSTM to learn normal temporal behaviour
+
+![LSTM anomaly detection](assets/images/lstm_anomaly_detection.png)
+_Figure: LSTM-based anomaly detection on sensor time series data._
+
+![LSTM anomaly detection samples](assets/images/lstm_anomaly_detection_samples.png)
+_Figure: Sample anomaly detection outputs highlighting detected events._
 
 ## Large Language Models
 
