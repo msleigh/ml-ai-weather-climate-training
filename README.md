@@ -115,10 +115,7 @@ uv sync
 - APIs as a scaling principle
   - Systems can grow without rewrites
   - Shift complexity behind a stable boundary
-
-### API requests using `requests`
-
-
+- API requests using `requests`
 
 ### Fortran integration via `ctypes`
 
@@ -135,8 +132,6 @@ uv sync
 - GRIB advantages
     - Operational standard for weather data exchange
     - Encoding efficient still(?) unmatched
-
-### ICON GRIB files from DWD open data
 
 ### ecCodes GRIB library
 
@@ -178,6 +173,18 @@ uv sync
     ds = xr.open_dataset('file.grib2', engine='earthkit')
     ```
 
+![IFS mean sea-level pressure from GRIB](assets/images/grib_plot_with_eccodes_ifs_pressure.png "IFS mean sea-level pressure from GRIB")
+_Figure: IFS mean sea-level pressure field plotted from a GRIB file using ecCodes._
+
+![IFS 2m temperature from GRIB](assets/images/grib_plot_with_eccodes_ifs_t2m.png)
+_Figure: IFS 2m temperature field loaded from GRIB and plotted via ecCodes._
+
+![ICON 2m temperature (global interpolation)](assets/images/grib_plot_with_eccodes_icon_t2m_global_interp.png)
+_Figure: ICON 2m temperature interpolated to a global grid._
+
+![ICON 2m temperature (Germany interpolation)](assets/images/grib_plot_with_eccodes_icon_t2m_germany_interp.png)
+_Figure: ICON 2m temperature interpolated over Germany._
+
 ### SYNOP observations from NetCDF
 
 - SYNOP: WMO code for weather-station observations (surface synoptic observations)
@@ -186,6 +193,24 @@ uv sync
   - Temperature, pressure, visibility, etc
   - SYNOP (FM-12) for land stations; related surface report types include SHIP (FM-13) and BUOY (FM-18)
   - Operational exchange moving from alphanumeric SYNOP code towards BUFR (table-driven format)
+
+![SYNOP temperature (EuroPP projection)](assets/images/synop_temp_EuroPP.png)
+_Figure: SYNOP temperature observations in EuroPP projection._
+
+![SYNOP temperature (geostationary projection)](assets/images/synop_temp_Geostationary.png)
+_Figure: SYNOP temperature observations in a geostationary projection._
+
+![SYNOP temperature (Mercator projection)](assets/images/synop_temp_Mercator.png)
+_Figure: SYNOP temperature observations in Mercator projection._
+
+![SYNOP temperature (Plate Carree projection)](assets/images/synop_temp_PlateCarree.png)
+_Figure: SYNOP temperature observations in Plate Carree projection._
+
+![SYNOP temperature (stereographic projection)](assets/images/synop_temp_Stereographic.png)
+_Figure: SYNOP temperature observations in a stereographic projection._
+
+![SYNOP temperature (Transverse Mercator projection)](assets/images/synop_temp_TransverseMercator.png)
+_Figure: SYNOP temperature observations in Transverse Mercator projection._
 
 ### AIREP feedback file analysis
 
@@ -199,6 +224,9 @@ uv sync
   - Contains all relevant information regarding use and impact of observations in the assimilation
   - Enables detailed diagnostic studies to be carried out on performance of assimilation and observing systems
   - Feedback files used as input to periodic offline bias correction updates
+
+![AIREP observation sample plot](assets/images/airep.png)
+_Figure: Example AIREP aircraft observations plotted from feedback data._
 
 ### GPU access in practice
 
