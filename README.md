@@ -260,9 +260,9 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
 - Create tensor with `requires_grad=True`, and PyTorch will then:
   - Record the operations applied to it (a computation graph),
   - Then (when you call `.backward()` on a scalar result, typically the loss) use chain rule to compute gradients, e.g. for tensor $x$:
-    $$
-    \frac{\partial}{\partial x} \mathrm{loss}
-    $$
+
+    $$\dfrac{\partial}{\partial x} \mathrm{loss}$$
+
   - Gradients end up in `.grad` field of the tensors being optimised
 - Leaf tensors are those created by the user (not results of operations)
   - Only leaf tensors with `requires_grad=True` will have their `.grad` populated during backpropagation
@@ -303,9 +303,7 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
 
 - Model:
 
-  $$
-  \hat{y} = W_2 \sigma(W_1 x + b_1) + b_2
-  $$
+  $$\hat{y} = W_2 \sigma(W_1 x + b_1) + b_2$$
 
   where:
 
@@ -358,9 +356,9 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
   - Neural networks: composing nonlinearities lets them form curved, complex boundaries (often piecewise linear)
 - Multi-class (softmax)
   - Boundaries are where top two class scores tie, e.g.
-    $$
-    s_i(x) = s_j(x)
-    $$
+
+    $$s_i(x) = s_j(x)$$
+
   - Full space partitioned into regions for each class
 
 - Decision boundary interpretation:
@@ -376,9 +374,9 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
   - Without activations, a stack of linear layers is still just one linear function
 
 - Typical pattern in neural network layer:
-  $$
-  h = \sigma(Wx + b)
-  $$
+
+  $$h = \sigma(Wx + b)$$
+
   - $W$: weight matrix
   - $b$: bias vector
   - $\sigma$: activation function (e.g. ReLU, sigmoid, tanh)
@@ -535,14 +533,14 @@ _Figure: Example CNN test predictions on function-classification inputs._
     - Input gate: decides what new info to add to cell state
     - Output gate: decides what to output as hidden state
   - So memory update is roughly:
-    $$
-    C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t
-    $$
+
+    $$C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t$$
+
     where $C_t$ is cell state at time $t$, $f_t$ is forget gate, $i_t$ is input gate, and $\tilde{C}_t$ is candidate new info
     and:
-    $$
-    h_t = o_t \cdot \tanh(C_t)
-    $$
+
+    $$h_t = o_t \cdot \tanh(C_t)$$
+
     where $h_t$ is hidden state, $o_t$ is output gate, $\tanh$ is hyperbolic tangent activation function
 - LSTM anomaly detection treats sensor stream as time series and uses LSTM to learn normal temporal behaviour
 
@@ -561,9 +559,9 @@ _Figure: Sample anomaly detection outputs highlighting detected events._
     - For each position in the sequence, the model outputs a vector of length `vocab_size`
     - Those numbers are the logits: higher = more likely, but they are not probabilities yet
     - Turn into probabilities using softmax:
-      $$
-      p(t_i) = \frac{e^{\mathrm{logit}(t_i)}}{\sum_{j} e^{\mathrm{logit}(t_j)}}
-      $$
+
+      $$p(t_i) = \frac{e^{\mathrm{logit}(t_i)}}{\sum_{j} e^{\mathrm{logit}(t_j)}}$$
+
       where $t_i$ is token $i$.
   - Why use logits:
     - Training uses cross-entropy loss, which is numerically stable when
