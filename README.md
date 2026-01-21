@@ -729,13 +729,43 @@ Given a corpus of text:
 
 ## Diffusion and Flexible Graph Networks
 
+- Classical supervised learning; learn $f(x) = y$, i.e. $ x \to y$ mapping
+
+  ```text
+  Input x  →  Model  →  Single output ŷ
+  ```
+
+  - One correct answer per input
+  - No concept of uncertainty
+- Distribution learning: learn $P(y|x)$ instead of $f(x) = y$
+
+  ```text
+  Input x  →  Model  →  Distribution over outputs P(ŷ|x)  →  Sample ŷ₁, ŷ₂, ŷ₃, ...
+  ```
+
+  - Many possible outputs per input
+  - Model uncertainty in outputs
+
 ### Diffusion networks
 
+- Models that learn how to turn noise into structure
+- Ggenerate data by reversing a gradual noising process
+- Two phases:
+  - Forward: progressively add Gaussian noise to data over many steps until pure noise
+  - Reverse: learn to denoise step-by-step, recovering data
+- Forward process is a Markov chain with fixed noise schedule
+  - I.e. noise added at each step is fixed not learned
+- Reverse process is learned with a neural network (often U-Net or transformer)
+- Applications: image/video/audio generation, molecule design
+- One-step sampling not enough in high-dim spaces
 
+![Learning a 1D distribution with diffusion](assets/images/1d_distribution_sampling.png)
 
 ### Flexible graph networks for sparse observations
 
-
+- Flexible/dynamic GNNs extend to handle evolving or learnable graph structure
+- Latent graph: fixed but not explicit, learned during training
+- Dynamic graph: graph structure changes over time or per input
 
 ### Graph structure exploration
 
