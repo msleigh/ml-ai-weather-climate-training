@@ -1004,29 +1004,46 @@ Given a corpus of text:
 
 ## MLOps
 
+
+
 ### Motivation and foundations
 
-- Make ML work:
+- Make ML systems:
   - Repeatable
   - Testable
   - Deployable
   - Maintainable
-  in the real world
-
+  for operational use
+- 'Classical' DevOps  vs. MLOps:
+  - Code fully defines behaviour -> behaviour emerges from data
+  - Deterministic output -> probabilistic/statistical outputs
+  - Changes explicit/deliberate -> models degrade as distributions drift/behaviour changes even when code does not
+  - Focus on code -> data, models, config, environment
+  - End product operational -> full model lifecycle operational
+- Many elements of MLOps already in NWP development cycles
 - Need to be able to:
   - Reproduce a result (same code, data, config, environment)
   - Compare experiments and avoid mystery improvements
   - Ship a model reliably (packaging, dependencies, interfaces)
   - Monitor performance and know when it degrades
-
+- Need to manage:
+  - Data pipelines and preprocessing
+  - Training and evaluation workflows
+  - Model versioning and metadata
+  - Deployment
+  - Monitoring
+  - Rollback
 - Considerations:
   - Version control
   - Data/versioning: which dataset snapshot produced which model (hashes, dataset IDs, immutable artefacts)
   - Environment management: pinned dependencies, often containers
   - Experiment tracking: log metrics/params/artefacts (e.g. MLflow) so runs comparable
   - Training pipelines: scripted, parameterised training (not ad-hoc notebooks), with deterministic seeds where possible
+    - Automated
+  - CI
   - Model packaging: clear serveable artefact (weights, preprocessing, metadata) and a stable interface
   - Deployment: batch or service; CPU/GPU scheduling; rollback strategy
+    - CD
   - Monitoring: data drift, model drift, latency, error rates, alerting and retraining triggers
   - Governance: documentation, approvals, audit trail
 
