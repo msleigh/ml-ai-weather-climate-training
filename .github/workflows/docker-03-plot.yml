@@ -1,0 +1,33 @@
+name: Build and publish Docker image (03 plot)
+
+on:
+  push:
+    paths:
+      - "docker-test/**"
+      - ".github/workflows/docker-03-plot.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+          docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and push image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/docker-plot-03:${{ github.sha }} \
+            -f docker-test/03_dockerfile.txt \
+            docker-test
+
+          docker push ghcr.io/${{ github.repository_owner }}/docker-plot-03:${{ github.sha }}
