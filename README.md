@@ -608,22 +608,153 @@ _Figure: Sample anomaly detection outputs highlighting detected events._
 
 ## Large Language Models
 
-- Key terms: tokens, embeddings, context window, positional encoding, logits, sampling/temperature
+- LLMs unify many NLP tasks (text generation, summarisation, translation, Q&A)
+- Previously separate models for each task in traditional NLP
+- Key idea: language as a sequence modelling problem
+- For:
 
-- Logits: model’s raw scores for each class/token before converting into probabilities
-  - In an LLM:
-    - For each position in the sequence, the model outputs a vector of length `vocab_size`
-    - Those numbers are the logits: higher = more likely, but they are not probabilities yet
-    - Turn into probabilities using softmax:
+  $$(x_1, x_2, \ldots, x_n \to (y_1, y_2, \ldots, y_n)$$
 
-      $$p(t_i) = \frac{e^{\mathrm{logit}(t_i)}}{\sum_{j} e^{\mathrm{logit}(t_j)}}$$
+  each step predicts a probability distribution:
 
-      where $t_i$ is token $i$.
-  - Why use logits:
-    - Training uses cross-entropy loss, which is numerically stable when
-      computed from logits directly (PyTorch’s `CrossEntropyLoss` expects
-      logits, not softmaxed probabilities)
-    - Logits can be scaled by temperature during sampling: divide logits by $T$ before softmax (higher $T$ = more random)
+  $$p(y_t | x_{1:n}, y_{1:t-1})$$
+- Tokens converted to indexes via vocabulary, mapped to embeddings:
+
+  $$ i \to e_i \in \mathbb{R}^d $$
+
+  for token index $i$ and embedding dimensionality $d$.
+- Gives an embedding matris:
+
+  $$ E \in \mathbb{R}^{V \times d} $$
+
+  where $V$ is vocabulary size.
+- Positional encodings added to embeddings to give token position info:
+
+  $$ x_i = e_i + p_i $$
+
+  where $p_i$ is positional encoding for position $i$,
+
+  $$P \in \mathbb{R}^{n \times d}$$
+
+  with context length $n$
+  - Example positional encoding: sinusoidal functions of position:
+
+    $$p_{i,2k} = \sin\left(\frac{i}{10000^{2k/d}}\right)$$
+
+    $$p_{i,2k+1} = \cos\left(\frac{i}{10000^{2k/d}}\right)$$
+
+    where $k$ is dimension index and $i$ is position index.
+
+### Attention
+
+It is arguably impossible to understand how a transformer works without first grasping _attention_.
+
+A Transformer block is essentially just two things stacked together:
+1. Self-attention (a mechanism that mixes information between words)
+1. Feed-forward network (the mechanism that processes each word individually)
+
+A transformer without attention is a model that processes words in isolation.
+
+The core idea is parallel processing: how do you process a whole sentence at once but still understand that the first word relates to the last word?
+
+Consider a sequence of tokens. We have converted the tokens into integer indexes into the vocabulary, then into embeddings vectors:
+
+$$ e_i $$
+
+(where $i$ is the token index); and then encoded position, to give:
+
+$$ x_i = e_i + p_i $$
+
+Each token is a 1D vector over the $d$ dimensions of the embeddings space, where:
+
+$$ k = 1, 2, ..., d $$
+
+is the dimension index.
+
+Next we calculate the attention:
+
+$$ a_{i,ji} $$
+
+for each pair of tokens $i$ and $j$. Each token $x_i$ is projected into three different spaces:
+
+1. Query
+1. Key
+1. Value
+
+These spaces have $d_Q$ , $d_K$ and $d_V$ dimensions, respectively. So the vector $x_i$ of $d$ dimensions in the embedding space becomes a vector $q_i$ of $d_Q$ dimensions in the "Query"
+space, and so forth. Altogether there are four different active vector representations in four different subspaces for each token.
+
+We use these different spaces to separate the vector's content from its function.
+
+For example given the word "bank", the original embedding vector gives the word's general meaning (and position in the sequence). The projection into the query space encodes "what the token is
+looking for"; for example that, as a noun, "bank" is looking for an adjective to describe it. The projection into the key space encodes "what the token can provide"; for example that, as a
+noun, "bank" can provide a subject for a verb. The projection into the value space encodes "what information the token carries"; for example that "bank" carries information about finance. An
+initial connection between two tokens in a sequence is therefore given by:
+
+$$ s_{i,j} = q_i \cdot k_j $$
+
+This is a raw attention score, or compatibility score, between token $i$ and token $j$.
+
+Not that this provides a constraint that $d_Q = d_K$: in general (and here from now on) we refer only to $d_K$. $d_V$, the value space dimensionality, can be different in theory; but in
+practice it is usually set equal to $d_K$. Having all three space dimensions equal simplifies implementation and improves efficiency.
+
+The scalar product is a measure of geometric alignment; if $q_i$ and $k_j$ point in similar directions, then the "answer" $k_j$ provides is relevant to the "question" $q_i$ is asking, and this
+will be reflected in the fact that the scalar product will be a large positive number.
+
+For the whole sequence:
+
+$$ S = QK^T $$
+
+where $Q$ and $K$ stack the $q_i$ and $k_j$ vectors respectvely.
+
+The results are scaled by $\sqrt{d_K}$ to avoid large dot products when $d_K$ is large. The scaled similarity $s_{i,j} / \sqrt{d_K}$ is known as a _logit_. For logits, higher means more
+likely, but they are not probabilities (yet). Logits are _defined_ as inputs to the Softmax function.
+
+The final step in calculating the attention is to normalise using the softmax function to give attention weights:
+
+$$ a_{i,j} = \mathrm{softmax}\left(\frac{s_{i,j}}{\sqrt{d_K}}\right) = \frac{e^{s_{i,j}/\sqrt{d_K}}}{\sum_{m} e^{s_{i,m}/\sqrt{d_K}}} $$
+
+These are now probabilities; for each $i$:
+
+$$ \sum_{j} a_{i,j} = 1 $$
+
+Overall:
+
+$$ A = \mathrm{softmax}\left(\frac{QK^T}{\sqrt{d_K}}\right) $$
+
+The final output of the attention mechanism for token $i$ is a weighted sum of the value vectors $v_j$ for all tokens $j$ in the sequence:
+
+$$ z_i = \sum_{j} a_{i,j} v_j $$
+
+or in matrix form for the whole sequence:
+
+$$ Z = AV $$
+
+The output vector for token $i$ no longer represents just the original token, but a superposition of all tokens in the sequence, each weighted by how much attention token $i$ pays to it.
+
+- Why use logits:
+  - Training uses cross-entropy loss, which is numerically stable when
+    computed from logits directly (PyTorch’s `CrossEntropyLoss` expects
+    logits, not softmaxed probabilities)
+
+- Logits can be scaled by temperature during sampling: divide logits by $T$ before softmax (higher $T$ = more random)
+
+### Multi-head attention
+
+Attention allows a notion of similarity to be used to link tokens. However word relate to each other in different ways:
+syntactically (e.g. subject-verb agreement), semantically, coreferentially, positionally, etc.
+
+Multi-head attention allows the expression of different types of relationships in parallel. For each head $h = 1, 2, \cdots, H$, we have separate projections into query, key, and value spaces,
+$Q^{(h)}, K^{(h)}, V^{(h)}$ and ultimately $Z^{(h)}$.
+
+These are concatenated (forming a matrix of size $N \times (H \cdot d_V)$) and projected back into the original embedding space of size $d$ using a learned weight matrix $W_O$:
+
+$$ Z = \mathrm{Concat}(Z^{(1)}, Z^{(2)}, \ldots, Z^{(H)}) W_O $$
+
+Typically, $d_V$ would be set to be $d/H$ to keep the dimensions consistent.
+
+- Core model: transformer blocks with self-attention and feed-forward layers
+
 
 ### Transformers as sequence-to-sequence models
 
@@ -779,6 +910,8 @@ Given a corpus of text:
   - Many possible outputs per input
   - Model uncertainty in outputs
 
+![Learning a 1D distribution](assets/images/1d_distribution_sampling.png)
+
 ### Diffusion networks
 
 - Models that learn how to turn noise into structure
@@ -791,8 +924,6 @@ Given a corpus of text:
 - Reverse process is learned with a neural network (often U-Net or transformer)
 - Applications: image/video/audio generation, molecule design
 - One-step sampling not enough in high-dim spaces
-
-![Learning a 1D distribution with diffusion](assets/images/1d_distribution_sampling.png)
 
 ### Flexible graph networks for sparse observations
 
