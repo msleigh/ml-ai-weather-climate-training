@@ -1214,18 +1214,20 @@ Given a corpus of text:
 
 ### Training approaches: AIDA and AI-VAR
 
+- AI-VAR - using variational DA ideas inside an ML pipeline
+  - Learns the variational DA solver with a neural networka
+  - Training uses the variational cost function as (or inside) the loss
+  - Same cost function $J(x)$ - NN approximates the iterative minimisation of $J(x)$ in classical variational DA
+  - AI equivalent to 3D-Var, 4D-Var or EnVar (variational DA family; distinct from EnKF methods and particle filter methods)
+  - No need for TL/AD of the model
+
 - AIDA - AI data assimilation
   - Named DWD effort/framework: “building a general framework for AI-based data assimilation → AIDA”
   - I.e. a specific project line growing out of DWD's AI-Var work
 
-- AI-VAR - using variational DA ideas inside an ML pipeline
-  - Learns the variational DA solver with a neural networka
-  - Training uses the variational cost function as (or inside) the loss
-  - So the method can, in principle, train from background and observations, without requiring a target analysis dataset
-
 ### AI ensemble data assimilation
 
-
+- AI particle filters
 
 ## AI and Physics
 
