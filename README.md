@@ -43,7 +43,7 @@ uv sync
 - General coding rules and strategy
 - Overview of five days: Python and AI
 
-## Python Startup: Basics
+## Lecture 1 - Python Startup: Basics
 
 - Installation, virtual environments, pip, imports
 - Dependency management with `requirements.txt`
@@ -52,9 +52,9 @@ uv sync
 - Functions
 - Python essentials
 
-## Jupyter Notebooks, APIs and Servers
+## Lecture 2 - Jupyter Notebooks, APIs and Servers
 
-### Jupyter notebooks
+### 2.1 Jupyter notebooks
 
 - Use in a venv; if `pip`-installing extra packages _within_ the notebook, use:
 
@@ -143,20 +143,20 @@ uv sync
   - A running kernel won't see new paths until restarted
   - Non-editable packages work immediately because they install directly into `site-packages/`, which is already in `sys.path`
 
-### APIs and API design
+### 2.2 APIs and API design
 
 - APIs as a scaling principle
   - Systems can grow without rewrites
   - Shift complexity behind a stable boundary
 - API requests using `requests`
 
-### Fortran integration via `ctypes`
+### 2.4 Fortran integration via `ctypes`
 
 - Calling compiled code from Python
 - `ctypes`: language binding in Python that can load C functions from shared libs or DLLs on the fly
 - `pybind11` - modern C++ bindings
 
-## ecCodes, GRIB, Open Data, NetCDF, Visualisation
+## Lecture 3 - ecCodes, GRIB, Open Data, NetCDF, Visualisation
 
 - GRIB is message-based, not "one tidy array per file"; typically select messages by metadata keys
 - Alternatives:
@@ -166,7 +166,7 @@ uv sync
     - Operational standard for weather data exchange
     - Encoding efficient still(?) unmatched
 
-### ecCodes GRIB library
+### 3.2 ecCodes GRIB library
 
 - ecCodes: core library/tooling for decoding/encoding GRIB/BUFR
 - In Python, use either:
@@ -222,7 +222,7 @@ _Figure: ICON 2m temperature interpolated to a global grid._
 
 _Figure: ICON 2m temperature interpolated over Germany._
 
-### SYNOP observations from NetCDF
+### 3.3 SYNOP observations from NetCDF
 
 - SYNOP: WMO code for weather-station observations (surface synoptic observations)
   - Typically at standard synoptic hours (often 00/06/12/18 UTC, sometimes more frequently depending on network)
@@ -255,7 +255,7 @@ _Figure: SYNOP temperature observations in a stereographic projection._
 
 _Figure: SYNOP temperature observations in Transverse Mercator projection._
 
-### AIREP feedback file analysis
+### 3.4 AIREP feedback file analysis
 
 - AIREP: aircraft reports
   - Weather observations from aircraft in flight
@@ -283,13 +283,13 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
     - Production: cloud VM with GPU, or on-prem HPC with GPU nodes
     - Code *must be portable across backends and environments*
 
-## Basics of Artificial Intelligence and Machine Learning
+## Lecture 4 - Basics of Artificial Intelligence and Machine Learning
 
-### Core AI and ML concepts
+### 4.1 Core AI and ML concepts
 
 
 
-### Torch tensors
+### 4.2 Torch tensors
 
 - Primarily an $n$-dimensional array (like NumPy’s `ndarray`) plus:
   - `dtype` (`float32`, `float64`, etc.)
@@ -329,7 +329,7 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
     - $N$-vector for regression (one target per sample)
     - $k$ is the number of labels for each output
 
-### PyTorch fundamentals: model, loss, optimiser
+### 4.3 PyTorch fundamentals: model, loss, optimiser
 
 - Tensor shapes and broadcasting (most bugs are shape bugs)
 
@@ -376,7 +376,7 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
 - Debug habits: print shapes, check loss decreasing, overfit a tiny batch
 
 
-### Simple neural network training
+### 4.4 Simple neural network training
 
 - Training neural networks is "adjust parameters to reduce loss"
 - Autograd gives the gradients needed for optimisers
@@ -388,7 +388,7 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
   - `loss.backward()` - backpropagation (compute gradients of loss w.r.t. parameters via backpropagation)
   - `optimiser.step()` - learning step (update parameters, i.e. weights/biases, in-place)
 
-### Gradients and decision boundaries
+### 4.5 Gradients and decision boundaries
 
 - Decision boundaries
   - In classification tasks, decision boundaries separate different classes in the input space
