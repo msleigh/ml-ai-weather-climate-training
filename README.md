@@ -287,7 +287,29 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
 
 ### 4.1 Core AI and ML concepts
 
+#### Learning a linear function
 
+![ReLU activation function](assets/images/relu_function.png)
+
+_Figure: ReLU activation function._
+
+![Training loss curve, learning linear weights](assets/images/training_loss_learning_linear_weights.png)
+
+_Figure: Training loss curve for learning linear weights._
+
+![Evolution of linear model weights during training](assets/images/model_predictions_over_training.png)
+
+_Figure: Evolution of linear model weights during training._
+
+#### Learning a non-linear function
+
+![Training loss curve, learning non-linear function](assets/images/training_loss_learning_nonlinear_weights.png)
+
+_Figure: Training loss curve for learning non-linear function._
+
+![Evolution of non-linear model weights during training](assets/images/model_predictions_over_training_nonlinear.png)
+
+_Figure: Evolution of non-linear model weights during training._
 
 ### 4.2 Torch tensors
 
@@ -371,6 +393,10 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
   - Gradients currently stored in each parameter’s `.grad` (computed by `loss.backward()`)
   - Uses e.g. SGD/Adam
 
+![Non-linear function minimisation](assets/images/minimisation_visualisation.png)
+
+_Figure: Visualisation of minimising a scalar non-linear function._
+
 - Device handling: CPU vs GPU (`.to(device)`), and `dtype` basics
 
 - Debug habits: print shapes, check loss decreasing, overfit a tiny batch
@@ -410,6 +436,14 @@ _Figure: Example AIREP aircraft observations plotted from feedback data._
   - Near boundary → small input changes can flip prediction (often where errors cluster)
   - Overly complex/simple boundaries sign of over/under-fitting
   - Plot decision boundaries in 2D by evaluating model on a grid and colouring by predicted class
+
+![Decision boundary labels](assets/images/decision_boundary_labels.png)
+
+_Figure: Example decision boundary labels for a binary classification task._
+
+![Decision boundary and normalised gradients](assets/images/points_classified_with_gradients.png)
+
+_Figure: Decision boundary and normalised gradient field for a binary classification task._
 
 ## Neural Network Architectures
 
