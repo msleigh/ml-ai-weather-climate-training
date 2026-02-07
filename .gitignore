@@ -11,3 +11,4 @@ wheels/
 .ipynb_checkpoints
 *.grib2
 *.grib2.bz2
+.claude/
