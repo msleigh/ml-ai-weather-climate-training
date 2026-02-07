@@ -445,7 +445,7 @@ _Figure: Example decision boundary labels for a binary classification task._
 
 _Figure: Decision boundary and normalised gradient field for a binary classification task._
 
-## Neural Network Architectures
+## 5. Neural Network Architectures
 
 - Activation function: non-linear function applied to a layer’s output (usually after a linear transform)
   - What lets neural networks model non-linear relationships
@@ -478,15 +478,13 @@ _Figure: Decision boundary and normalised gradient field for a binary classifica
     - Softmax for multi-class classification output
   - Experiment with different activations if training is unstable or performance poor
 
----
-
 - Network structure defines the inductive framework
   - Learning is constrained by connectivity
 
 - CNN - convolution $K \star x$
 - GNN - sparse matrix
 
-### Feed-forward networks
+### 5.1 Feed-forward networks
 
 - Data flows strictly from input to output without loops (no recurrence) - DAG
 - No memory (i.e. no state carried between inputs)
@@ -520,7 +518,7 @@ _Figure: Training loss curves for shallow vs deep networks._
 
 _Figure: Gradient magnitudes across layers for shallow vs deep networks._
 
-### Graph neural networks
+### 5.2 Graph neural networks
 
 - Designed for data that lives on a graph (set of nodes connected by edges)
   - Data points are not independent (e.g. spatial grids, social networks, molecules)
@@ -580,7 +578,7 @@ _Figure: GNN test output example 2._
   - CNN: fixed local neighbourhood on regular grid with shared kernels
   - GNN: neighbourhood is whatever edges you define; weight sharing over edges/messages rather than grid shifts
 
-### Convolutional neural networks for function classification
+### 5.3 Convolutional neural networks for function classification
 
 - Type of feed-forward NN designed for grid-like data (images, spatial fields) with spatial structure
 - Key idea is to learn local patterns and reuse the same pattern-detectors across the whole field
@@ -604,7 +602,7 @@ _Figure: GNN test output example 2._
 
 _Figure: Example CNN test predictions on function-classification inputs._
 
-### LSTM-based anomaly detection in sensor data
+### 5.4 LSTM-based anomaly detection in sensor data
 
 - LSTM: Long Short-Term Memory network
   - Type of recurrent neural network (RNN) designed to handle sequential data (time series, text, sensor streams)
@@ -640,7 +638,7 @@ _Figure: LSTM-based anomaly detection on sensor time series data._
 
 _Figure: Sample anomaly detection outputs highlighting detected events._
 
-## Large Language Models
+## 6. Large Language Models
 
 - LLMs unify many NLP tasks (text generation, summarisation, translation, Q&A)
 - Previously separate models for each task in traditional NLP
@@ -652,44 +650,109 @@ _Figure: Sample anomaly detection outputs highlighting detected events._
   each step predicts a probability distribution:
 
   $$p(y_t | x_{1:n}, y_{1:t-1})$$
+
+### Transformers as sequence-to-sequence models
+
+A Transformer block is essentially just two things stacked together:
+1. Self-attention (a mechanism that mixes information between words)
+1. Feed-forward network (the mechanism that processes each word individually)
+
+#### Embeddings
+
 - Tokens converted to indexes via vocabulary, mapped to embeddings:
 
-  $$ i \to e_i \in \mathbb{R}^d $$
+  $$i \to e_i \in \mathbb{R}^d$$
 
   for token index $i$ and embedding dimensionality $d$.
 - Gives an embedding matris:
 
-  $$ E \in \mathbb{R}^{V \times d} $$
+  $$E \in \mathbb{R}^{V \times d}$$
 
   where $V$ is vocabulary size.
+- PyTorch `nn.Embedding` initialises with random noise and learns from scratch
+  - Simple lookup table (a matrix of weights) that is trainable
+  - It has $V$ rows, $d$ columns.
+
+![Embedding structure](assets/images/embeddings_structure.png)
+
+_Figure: Structure of an embedding matrix. Each row in the plot represents one token; prior to training the data is initialised to random noise._
+
+In this training corpus:
+
+```python
+training_data = [
+    (["we", "are"], "hungry"),
+    (["we", "are"], "tired"),
+    (["we", "are"], "happy"),
+    (["we", "are"], "sad"),
+    (["we", "go"],  "home"),
+    (["we", "go"],  "Berlin"),
+]
+```
+
+"happy", "sad", "tired" appear in the same context (after "are"), and a model can learn that they are interchangeable. They will end up clustered together in the vector space, away from words
+like "Berlin" or "home". We build a continuous bag of words model, with text fragments (e.g., "we are") as input, and the task of predicting the missing word (e.g., "happy"), to train the
+embedding layer:
+
+```python
+# Continuous bag of words model
+class SimpleCBOW(nn.Module):
+    def __init__(self, vocab_size, d_model):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, d_model)
+        self.linear = nn.Linear(d_model, vocab_size)
+```
+
+Note:
+- `nn.Embedding` is trained only when a word is used as an _input_
+- `nn.Linear` is trained when a word is used as a _target_
+- In the training data `(["we", "are"], "happy")`, the word "happy" is only ever a target
+- This means its vector in the embedding is still random noise
+- Its "learned representation" lives in the weights of the linear layer
+
+We can visualise the weights given a simple 2D representation ($d$ = 2):
+
+![Learned embeddings after training](assets/images/learned_word_embeddings_2d.png)
+
+_Figure: Learned embeddings after training."
+
+#### Positional embeddings
+
+- Need to inject information about order into the vectors before they get averaged
+- In the standard Transformer (Vaswani et al., 2017), this is done by mathematically calculating a specific pattern (sines and cosines) based on the position index (0, 1, 2...) and adding it
+  to the word embedding
 - Positional encodings added to embeddings to give token position info:
 
-  $$ x_i = e_i + p_i $$
+  $$x_i = e_i + p_i$$
 
   where $p_i$ is positional encoding for position $i$,
 
   $$P \in \mathbb{R}^{n \times d}$$
 
   with context length $n$
-  - Example positional encoding: sinusoidal functions of position:
+- Example positional encoding: sinusoidal functions of position:
 
-    $$p_{i,2k} = \sin\left(\frac{i}{10000^{2k/d}}\right)$$
+  $$p_{i,2k} = \sin\left(\frac{i}{10000^{2k/d}}\right)$$
 
-    $$p_{i,2k+1} = \cos\left(\frac{i}{10000^{2k/d}}\right)$$
+  $$p_{i,2k+1} = \cos\left(\frac{i}{10000^{2k/d}}\right)$$
 
-    where $k$ is dimension index and $i$ is position index.
+  where $k$ is dimension index and $i$ is position index.
 
-### Attention
+![Positional encoding matrix](assets/images/positional_encoding_matrix.png)
 
-It is arguably impossible to understand how a transformer works without first grasping _attention_.
+_Figure: Example positional encoding matrix for context length 100 and embedding dimension 128.
+The $y$-Axis is token position $x$-Axis dimensions of the embedding
+Low dimensions oscillate rapidly (+1, -1, +1, -1) to allows the model to distinguish immediate neighbors.
+High dimensions change slowly to allow the model to understand long-range relationships._
 
-A Transformer block is essentially just two things stacked together:
-1. Self-attention (a mechanism that mixes information between words)
-1. Feed-forward network (the mechanism that processes each word individually)
+![Positional encoding curves](assets/images/positional_encoding_curves.png)
+_Figure: Example positional encoding curves for different embedding dimensions._
 
-A transformer without attention is a model that processes words in isolation.
+#### Attention
 
-The core idea is parallel processing: how do you process a whole sentence at once but still understand that the first word relates to the last word?
+- Arguably impossible to understand how a transformer works without first grasping _attention_.
+- A transformer without attention is a model that processes words in isolation.
+- Core idea is parallel processing: how do you process a whole sentence at once but still understand that the first word relates to the last?
 
 Consider a sequence of tokens. We have converted the tokens into integer indexes into the vocabulary, then into embeddings vectors:
 
@@ -707,7 +770,7 @@ is the dimension index.
 
 Next we calculate the attention:
 
-$$ a_{i,ji} $$
+$$ a_{i,j} $$
 
 for each pair of tokens $i$ and $j$. Each token $x_i$ is projected into three different spaces:
 
@@ -715,7 +778,7 @@ for each pair of tokens $i$ and $j$. Each token $x_i$ is projected into three di
 1. Key
 1. Value
 
-These spaces have $d_Q$ , $d_K$ and $d_V$ dimensions, respectively. So the vector $x_i$ of $d$ dimensions in the embedding space becomes a vector $q_i$ of $d_Q$ dimensions in the "Query"
+These spaces have $d_Q$, $d_K$ and $d_V$ dimensions, respectively. So the vector $x_i$ of $d$ dimensions in the embedding space becomes a vector $q_i$ of $d_Q$ dimensions in the "Query"
 space, and so forth. Altogether there are four different active vector representations in four different subspaces for each token.
 
 We use these different spaces to separate the vector's content from its function.
@@ -729,17 +792,17 @@ $$ s_{i,j} = q_i \cdot k_j $$
 
 This is a raw attention score, or compatibility score, between token $i$ and token $j$.
 
-Not that this provides a constraint that $d_Q = d_K$: in general (and here from now on) we refer only to $d_K$. $d_V$, the value space dimensionality, can be different in theory; but in
+Note that this provides a constraint that $d_Q = d_K$: in general (and here from now on) we refer only to $d_K$. The value space dimensionality $d_V$ can be different in theory; but in
 practice it is usually set equal to $d_K$. Having all three space dimensions equal simplifies implementation and improves efficiency.
 
-The scalar product is a measure of geometric alignment; if $q_i$ and $k_j$ point in similar directions, then the "answer" $k_j$ provides is relevant to the "question" $q_i$ is asking, and this
-will be reflected in the fact that the scalar product will be a large positive number.
+The scalar product is a measure of geometric alignment; if $q_i$ and $k_j$ point in similar directions, then the "answer" that $k_j$ provides is relevant to the "question" $q_i$ is asking, and
+this will be reflected in the fact that the scalar product will be a large positive number.
 
 For the whole sequence:
 
 $$ S = QK^T $$
 
-where $Q$ and $K$ stack the $q_i$ and $k_j$ vectors respectvely.
+where $Q$ and $K$ stack the $q_i$ and $k_j$ vectors, respectively.
 
 The results are scaled by $\sqrt{d_K}$ to avoid large dot products when $d_K$ is large. The scaled similarity $s_{i,j} / \sqrt{d_K}$ is known as a _logit_. For logits, higher means more
 likely, but they are not probabilities (yet). Logits are _defined_ as inputs to the Softmax function.
@@ -771,11 +834,13 @@ The output vector for token $i$ no longer represents just the original token, bu
     computed from logits directly (PyTorch’s `CrossEntropyLoss` expects
     logits, not softmaxed probabilities)
 
+$$ \mathcal{L} = - \sum{t=1}^n \log{p_t(y_t)} $$
+
 - Logits can be scaled by temperature during sampling: divide logits by $T$ before softmax (higher $T$ = more random)
 
-### Multi-head attention
+#### Multi-head attention
 
-Attention allows a notion of similarity to be used to link tokens. However word relate to each other in different ways:
+Attention allows a notion of similarity to be used to link tokens. However, words relate to each other in different ways:
 syntactically (e.g. subject-verb agreement), semantically, coreferentially, positionally, etc.
 
 Multi-head attention allows the expression of different types of relationships in parallel. For each head $h = 1, 2, \cdots, H$, we have separate projections into query, key, and value spaces,
@@ -789,8 +854,6 @@ Typically, $d_V$ would be set to be $d/H$ to keep the dimensions consistent.
 
 - Core model: transformer blocks with self-attention and feed-forward layers
 
-
-### Transformers as sequence-to-sequence models
 
 - Transformer: a neural network architecture
   - Stack of blocks doing self-attention and MLP
