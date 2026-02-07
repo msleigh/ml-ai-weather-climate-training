@@ -150,7 +150,7 @@ uv sync
   - Shift complexity behind a stable boundary
 - API requests using `requests`
 
-### 2.4 Fortran integration via `ctypes`
+### 2.3 Fortran integration via `ctypes`
 
 - Calling compiled code from Python
 - `ctypes`: language binding in Python that can load C functions from shared libs or DLLs on the fly
@@ -166,7 +166,7 @@ uv sync
     - Operational standard for weather data exchange
     - Encoding efficient still(?) unmatched
 
-### 3.2 ecCodes GRIB library
+### 3.1 ecCodes GRIB library
 
 - ecCodes: core library/tooling for decoding/encoding GRIB/BUFR
 - In Python, use either:
@@ -222,7 +222,7 @@ _Figure: ICON 2m temperature interpolated to a global grid._
 
 _Figure: ICON 2m temperature interpolated over Germany._
 
-### 3.3 SYNOP observations from NetCDF
+### 3.2 SYNOP observations from NetCDF
 
 - SYNOP: WMO code for weather-station observations (surface synoptic observations)
   - Typically at standard synoptic hours (often 00/06/12/18 UTC, sometimes more frequently depending on network)
@@ -255,7 +255,7 @@ _Figure: SYNOP temperature observations in a stereographic projection._
 
 _Figure: SYNOP temperature observations in Transverse Mercator projection._
 
-### 3.4 AIREP feedback file analysis
+### 3.3 AIREP feedback file analysis
 
 - AIREP: aircraft reports
   - Weather observations from aircraft in flight
@@ -272,7 +272,7 @@ _Figure: SYNOP temperature observations in Transverse Mercator projection._
 
 _Figure: Example AIREP aircraft observations plotted from feedback data._
 
-### GPU access in practice
+### 3.4 GPU access in practice
 
 - Python backends
     - CUDA (NVIDIA)
@@ -334,7 +334,7 @@ _Figure: Evolution of non-linear model weights during training._
   - Only leaf tensors with `requires_grad=True` will have their `.grad` populated during backpropagation
   - Intermediate tensors will only keep gradients if you call `.retain_grad()` on them
 
-### Data handling
+### 4.3 Data handling
 
 - Training uses batches
 - PyTorch's `DataLoader` provides:
@@ -351,7 +351,7 @@ _Figure: Evolution of non-linear model weights during training._
     - $N$-vector for regression (one target per sample)
     - $k$ is the number of labels for each output
 
-### 4.3 PyTorch fundamentals: model, loss, optimiser
+### 4.4 PyTorch fundamentals: model, loss, optimiser
 
 - Tensor shapes and broadcasting (most bugs are shape bugs)
 
@@ -402,7 +402,7 @@ _Figure: Visualisation of minimising a scalar non-linear function._
 - Debug habits: print shapes, check loss decreasing, overfit a tiny batch
 
 
-### 4.4 Simple neural network training
+### 4.5 Simple neural network training
 
 - Training neural networks is "adjust parameters to reduce loss"
 - Autograd gives the gradients needed for optimisers
@@ -414,7 +414,7 @@ _Figure: Visualisation of minimising a scalar non-linear function._
   - `loss.backward()` - backpropagation (compute gradients of loss w.r.t. parameters via backpropagation)
   - `optimiser.step()` - learning step (update parameters, i.e. weights/biases, in-place)
 
-### 4.5 Gradients and decision boundaries
+### 4.6 Gradients and decision boundaries
 
 - Decision boundaries
   - In classification tasks, decision boundaries separate different classes in the input space
@@ -445,7 +445,7 @@ _Figure: Example decision boundary labels for a binary classification task._
 
 _Figure: Decision boundary and normalised gradient field for a binary classification task._
 
-## 5. Neural Network Architectures
+## Lecture 5 - Neural Network Architectures
 
 - Activation function: non-linear function applied to a layer’s output (usually after a linear transform)
   - What lets neural networks model non-linear relationships
@@ -638,7 +638,7 @@ _Figure: LSTM-based anomaly detection on sensor time series data._
 
 _Figure: Sample anomaly detection outputs highlighting detected events._
 
-## 6. Large Language Models
+## Lecture 6 - Large Language Models
 
 - LLMs unify many NLP tasks (text generation, summarisation, translation, Q&A)
 - Previously separate models for each task in traditional NLP
@@ -651,7 +651,7 @@ _Figure: Sample anomaly detection outputs highlighting detected events._
 
   $$p(y_t | x_{1:n}, y_{1:t-1})$$
 
-### Transformers as sequence-to-sequence models
+### 6.1 Transformers as sequence-to-sequence models
 
 A Transformer block is essentially just two things stacked together:
 1. Self-attention (a mechanism that mixes information between words)
@@ -862,7 +862,7 @@ Typically, $d_V$ would be set to be $d/H$ to keep the dimensions consistent.
   - Dominant for language
   - Also used for time series and some spatial problems (with adaptations)
 
-### Implementing and training a simple transformer-based LLM
+### 6.2 Implementing and training a simple transformer-based LLM
 
 Given a corpus of text:
 
@@ -916,12 +916,12 @@ Given a corpus of text:
     - Convert logits to next token via sampling (e.g. greedy, top-k, nucleus)
     - Append token to input and repeat for desired length
 
-### Installing and using local LLMs
+### 6.3 Installing and using local LLMs
 
 - Local LLMs usually means: a model file and runtime (and often quantisation)
 
 
-## Retrieval-Augmented Generation (RAG)
+## Lecture 7 - Retrieval-Augmented Generation (RAG)
 
 - RAG:
   - search
@@ -933,29 +933,29 @@ Given a corpus of text:
 - Pipeline: prepare docs → embed → store → retrieve top-k → stuff into LLM prompt → generate answer
 - Why RAG fails (bad chunks, wrong retrieval, missing metadata, prompt too long, stale index).
 
-### Document preparation
+### 7.1 Document preparation
 
 
 
-### Embedding generation
+### 7.2 Embedding generation
 
 
 
-### Local and hosted LLMs
+### 7.3 Local and hosted LLMs
 
 
 
-### Vector databases, chunking and persistence
+### 7.4 Vector databases, chunking and persistence
 
 
 
-### End-to-end RAG pipelines
+### 7.5 End-to-end RAG pipelines
 
 
 
-## Multimodal Large Language Models
+## Lecture 8 - Multimodal Large Language Models
 
-### Fundamentals of multimodal LLMs
+### 8.1 Fundamentals of multimodal LLMs
 
 - Multimodal models still runs Transformer-like core
 - Turns non-text inputs into something the core can process
@@ -980,15 +980,15 @@ Given a corpus of text:
     - Retrieval from learned priors (general world knowledge),
     - Reasoning over what’s provided.
 
-### Radar data access and interpretation
+### 8.2 Radar data access and interpretation
 
 
 
-### Cloud-top height as a multimodal AI application
+### 8.3 Cloud-top height as a multimodal AI application
 
 
 
-## Diffusion and Flexible Graph Networks
+## Lecture 9 - Diffusion and Flexible Graph Networks
 
 - Classical supervised learning; learn $f(x) = y$, i.e. $ x \to y$ mapping
 
@@ -1009,7 +1009,7 @@ Given a corpus of text:
 
 ![Learning a 1D distribution](assets/images/1d_distribution_sampling.png)
 
-### Diffusion networks
+### 9.1 Diffusion networks
 
 - Models that learn how to turn noise into structure
 - Ggenerate data by reversing a gradual noising process
@@ -1022,17 +1022,17 @@ Given a corpus of text:
 - Applications: image/video/audio generation, molecule design
 - One-step sampling not enough in high-dim spaces
 
-### Flexible graph networks for sparse observations
+### 9.2 Flexible graph networks for sparse observations
 
 - Flexible/dynamic GNNs extend to handle evolving or learnable graph structure
 - Latent graph: fixed but not explicit, learned during training
 - Dynamic graph: graph structure changes over time or per input
 
-### Graph structure exploration
+### 9.3 Graph structure exploration
 
 
 
-### PyTorch Lightning and PyTorch Geometric
+### 9.4 PyTorch Lightning and PyTorch Geometric
 
 - What they are (training scaffolding; graph NN utilities)
 
@@ -1046,64 +1046,64 @@ Given a corpus of text:
   - Provides standard graph layers, data structures, loaders, and utilities to work with graph data
   - Aimed at irregular inputs such as graphs (and related structures)
 
-## Agents and Coding with LLMs
+## Lecture 10 - Agents and Coding with LLMs
 
-### Automated coding with LLMs
-
-
-
-### Overview of agent frameworks
+### 10.1 Automated coding with LLMs
 
 
 
-### LangChain for code design and execution
+### 10.2 Overview of agent frameworks
 
 
 
-### LangGraph-based forecast assistant
+### 10.3 LangChain for code design and execution
 
 
 
-## DAWID, LLMs and Feature Detection
+### 10.4 LangGraph-based forecast assistant
+
+
+
+## Lecture 11 - DAWID, LLMs and Feature Detection
 
 - Natural-language expert interface/system developed by DWD for intuitive access to AI applications
 
-### DAWID frontend
+### 11.1 DAWID frontend
 
 
 
-### DAWID backend architecture
+### 11.2 DAWID backend architecture
 
 
 
-### APIs, tasks and function integration
+### 11.3 APIs, tasks and function integration
 
 
 
-### AI-based feature detection for fronts
+### 11.4 AI-based feature detection for fronts
 
 
 
-## MLflow
+## Lecture 12 - MLflow
 
-### Experiment tracking and logging
+### 12.1 Experiment tracking and logging
 
 - MLflow Tracking: logging params/metrics/artefacts and viewing runs in the UI
 - MLflow terms: run, experiment, artefact, model registry
 
-### Running an MLflow server
+### 12.2 Running an MLflow server
 
 
 
-### Advanced features and model management
+### 12.3 Advanced features and model management
 
 
 
-## MLOps
+## Lecture 13 - MLOps
 
 
 
-### Motivation and foundations
+### 13.1 Motivation and foundations
 
 - Make ML systems:
   - Repeatable
@@ -1171,7 +1171,7 @@ Given a corpus of text:
     - Shadow/canary runs before impact
     - Explicit rollback to previous artefacts
 
-### Containerisation and reproducibility
+### 13.2 Containerisation and reproducibility
 
 - GPU stack is part of environment:
   - Model results and correctness can depend on the exact CUDA toolkit, cuDNN, NCCL, and driver/runtime combination
@@ -1206,35 +1206,35 @@ Given a corpus of text:
   - Scan images
   - Tag images immutably (digest) so "the container" is a specific artefact, not a moving label
 
-### DevOps practices in weather services
+### 13.3 DevOps practices in weather services
 
 
 
-## CI/CD for ML Code
+## Lecture 14 - CI/CD for ML Code
 
-### CI/CD concepts and motivation
-
-
-
-### Tools and frameworks
+### 14.1 CI/CD concepts and motivation
 
 
 
-### Testing with Pytest
+### 14.2 Tools and frameworks
 
 
 
-### Runners and cloud integration
+### 14.3 Testing with Pytest
 
 
 
-### CI/CD for ICON, AICON and Anemoi
+### 14.4 Runners and cloud integration
 
 
 
-## Anemoi: AI-Based Weather Modelling
+### 14.5 CI/CD for ICON, AICON and Anemoi
 
-### YAML, Hydra and OmegaConf
+
+
+## Lecture 15 - Anemoi: AI-Based Weather Modelling
+
+### 15.1 YAML, Hydra and OmegaConf
 
 - Hydra/OmegaConf: hierarchical YAML configs, composition, and CLI overrides
 - Very common in research-to-prod ML
@@ -1246,70 +1246,70 @@ Given a corpus of text:
   - Supports structured configs / runtime type safety (useful for keeping ML configs sane as they grow)
   - Often used underneath Hydra (Hydra builds the composition/override workflow; OmegaConf holds the config object)
 
-### Anemoi framework overview
+### 15.2 Anemoi framework overview
 
 
 
-### Zarr and ERA datasets
+### 15.3 Zarr and ERA datasets
 
 - Zarr is chunked for parallel access
     - Designed for object storage / cloud native
 
-### Icosahedral graph construction
+### 15.4 Icosahedral graph construction
 
 
 
-### Training and validation
+### 15.5 Training and validation
 
 
 
-### End-to-end training pipelines
+### 15.6 End-to-end training pipelines
 
 
 
-## The AI Transformation
+## Lecture 16 - The AI Transformation
 
-### From manual workflows to AI-assisted pipelines
-
-
-
-### Process restructuring and tool integration
+### 16.1 From manual workflows to AI-assisted pipelines
 
 
 
-### Changing roles: guidance, supervision, validation, design
+### 16.2 Process restructuring and tool integration
 
 
 
-### Faster iteration via automation and rapid prototyping
+### 16.3 Changing roles: guidance, supervision, validation, design
 
 
 
-### New skills: problem formulation, model-aware reasoning, critical assessment
+### 16.4 Faster iteration via automation and rapid prototyping
 
 
 
-## Model Emulation, AIFS, AICON and More
-
-### AIFS: ECMWF flagship model
+### 16.5 New skills: problem formulation, model-aware reasoning, critical assessment
 
 
 
-### AICON trained on ICON-DREAM
+## Lecture 17 - Model Emulation, AIFS, AICON and More
+
+### 17.1 AIFS: ECMWF flagship model
 
 
 
-### BRIS stretched-grid approach
+### 17.2 AICON trained on ICON-DREAM
 
 
 
-## AI Data Assimilation
-
-### Introduction to AI-based data assimilation
+### 17.3 BRIS stretched-grid approach
 
 
 
-### Training approaches: AIDA and AI-VAR
+## Lecture 18 - AI Data Assimilation
+
+### 18.1 Introduction to AI-based data assimilation
+
+
+
+### 18.2 Training approaches: AIDA and AI-VAR
 
 - AI-VAR - using variational DA ideas inside an ML pipeline
   - Learns the variational DA solver with a neural networka
@@ -1322,35 +1322,35 @@ Given a corpus of text:
   - Named DWD effort/framework: “building a general framework for AI-based data assimilation → AIDA”
   - I.e. a specific project line growing out of DWD's AI-Var work
 
-### AI ensemble data assimilation
+### 18.3 AI ensemble data assimilation
 
 - AI particle filters
 
-## AI and Physics
+## Lecture 19 - AI and Physics
 
-### Extracting governing equations
-
-
-
-### Physics-informed neural networks
+### 19.1 Extracting governing equations
 
 
 
-### Embedding conservation laws
+### 19.2 Physics-informed neural networks
 
 
 
-## Learning from Observations Only
-
-### Direct observation prediction
+### 19.3 Embedding conservation laws
 
 
 
-### ORIGEN iterative model and data assimilation learning
+## Lecture 20 - Learning from Observations Only
+
+### 20.1 Direct observation prediction
 
 
 
-### Interplay of human insight, modelling and machine learning
+### 20.2 ORIGEN iterative model and data assimilation learning
+
+
+
+### 20.3 Interplay of human insight, modelling and machine learning
 
 
 ## Licence and copyright
