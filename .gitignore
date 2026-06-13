@@ -5,10 +5,14 @@ build/
 dist/
 wheels/
 *.egg-info
+.ipynb_checkpoints/
 
 # Virtual environments
 .venv
-.ipynb_checkpoints
+
+# AI
+.claude/
+
+# Data
 *.grib2
 *.grib2.bz2
-.claude/
