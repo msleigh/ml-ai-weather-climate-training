@@ -27,9 +27,24 @@ git submodule update --init --recursive && uv venv && source .venv/bin/activate 
 
 See [Course Scope](#course-scope) for the step-by-step version.
 
+## Highlights
+
+The table of contents below is long; these are the most developed sections, worth a look first:
+
+- **Transformers and LLMs built from scratch** (embeddings, attention, training) —
+  [Lecture 6](#lecture-6---large-language-models)
+- **Neural network architectures** (feed-forward, graph, convolutional, LSTM) —
+  [Lecture 5](#lecture-5---neural-network-architectures)
+- **PyTorch fundamentals and the training loop** —
+  [Lecture 4](#lecture-4---basics-of-artificial-intelligence-and-machine-learning)
+- **Weather/climate data formats** (GRIB/ecCodes, NetCDF, visualisation) —
+  [Lecture 3](#lecture-3---eccodes-grib-open-data-netcdf-visualisation)
+- **MLOps for scientific computing** — [Lecture 13](#lecture-13---mlops)
+
 ## Table of Contents
 
 - [Quick start](#quick-start)
+- [Highlights](#highlights)
 - [Prerequisites](#prerequisites)
 - [Course Scope](#course-scope)
 - [Introduction](#introduction)
