@@ -27,6 +27,26 @@ git submodule update --init --recursive && uv venv && source .venv/bin/activate 
 
 See [Course Scope](#course-scope) for the step-by-step version.
 
+To skim a notebook from the original course:
+
+```bash
+uv run jupyter lab e-ai_ml2/course/code/code...
+```
+
+This opens the notebook, and Jupyter sets the kernel's working directory to the
+notebook's own folder so any relative data paths inside resolve correctly.
+
+Don't run cells inside the submodule copy. Executing a notebook writes outputs
+and execution counts back into the `.ipynb` - this is reference material. To
+run things, copy the notebook into `notebooks/` and run the copy. That also
+gives a sandbox to tinker without touching upstream.
+
+To open the main scratch notebook containing my work:
+
+```bash
+uv run jupyter lab notebooks/scratch.ipynb
+```
+
 ## Highlights
 
 The table of contents below is long; these are the most developed sections, worth a look first:
