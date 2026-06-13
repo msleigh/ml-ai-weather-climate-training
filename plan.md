@@ -77,15 +77,15 @@ Skim: `code18/1_Inversion_1D.ipynb`, `code18/2_AI-VAR_1d.ipynb`, `code18/4_Loren
 
 #### Course ch. 7 / README "Retrieval-Augmented Generation" (~line 924)
 
-Skim: `code07/1_vector_db_elementary.ipynb`, `code07/5_icon_faiss_rag.ipynb`
+Skim: ~~`code07/1_vector_db_elementary.ipynb`,~~ `code07/5_icon_faiss_rag.ipynb`
 
 **Document preparation (~line 937):**
 - Chunking: line-based splitting with overlap (e.g. 1800 chars, 300 overlap); skip binaries and files >2MB
 - Metadata per chunk: filename, line range, chunk ID — enables traceability to source
 
 **Embedding generation (~line 941):**
-- SentenceTransformer ("all-MiniLM-L6-v2"): maps text → 384-dim vectors, normalised to unit norm
-- Same embedding space for documents and queries; cosine similarity = inner product on unit vectors
+- ~~SentenceTransformer ("all-MiniLM-L6-v2"): maps text → 384-dim vectors, normalised to unit norm~~
+- ~~Same embedding space for documents and queries; cosine similarity = inner product on unit vectors~~
 
 **Vector databases, chunking and persistence (~line 949):**
 - FAISS IndexFlatIP: exact inner-product search on normalised vectors

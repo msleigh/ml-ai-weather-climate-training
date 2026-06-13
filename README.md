@@ -1105,13 +1105,75 @@ Given a corpus of text:
 
 ### 7.2 Embedding generation
 
+Given a tokenised document:
 
+$$ (w_1, w_2, \ldots, w_n) $$
+
+we map to an embedding space, which captures the semantic meaning of text
+
+$$ x_i = E(w_i) $$
+
+usually using a transformer model.
+
+After self-attention:
+
+$$ (h_1, h_2, \ldots, h_n) = \mathrm{Transformer}(x_1, x_2, \ldots, x_n) $$
+
+A chunk of text is typically:
+
+$$ z = \frac{1}{n} \sum_{i=1}^n h_i $$
+
+#### Summary
+
+1. What gets embedded — what's the raw input, and what library/model turns text
+   into vectors?
+   > Document chunks, in this case short sentences, are what gets embedded. The
+   > raw input is the plain text of the sentences. A pre-trained transformer
+   > model - all-MiniLM-L6-v2 from Hugging Face - turns the text into vectors,
+   > via the sentence_transformers package. The model emits one fixed-length
+   > vector per input text regardless of how long the text is; it pools
+   > genuinely the per-token vectors down to a single 384-dim vector. So
+   > "sentence → vector" is 1-to-1, which is what makes a
+   > NumPy-row-per-sentence store work.
+2. The vector store — what structure holds the vectors, and what does "search"
+   actually compute (what similarity metric)?
+   > Each sentence is transformed into a vector, and in this example the
+   > vectors are stored in a numpy array, one row per sentence and one column
+   > per dimension of the embedding space. 'Search' computes cosine similarity
+   > between the query vector and each sentence vector - the normalised dot
+   > product of the two vectors, which is equivalent to the cosine of the angle
+   > between them in the d-dimensional vector space. Once vectors are
+   > L2-normalised, cosine similarity is the plain dot product. That
+   > equivalence is the reason FAISS's `IndexFlatIP` (inner product) works in
+   > notebook 5 — after normalising, the inner-product search gives cosine
+   > ranking for free.
+3. The query path — how is a query turned into the same kind of vector so it
+   can be compared to the stored ones?
+   > The query is transformed into a vector in the _same_ embedding space by
+   > the _same_ transformer model. If the query went through a different model,
+   > the geometry wouldn't be comparable and the dot products would be
+   > meaningless.
 
 ### 7.3 Local and hosted LLMs
 
 
 
 ### 7.4 Vector databases, chunking and persistence
+
+Each chunk $z_j$ can be stored in a vector database, which can be queried.
+Similarity between a query $z_q$ and a stored chunk is:
+
+$$ \mathrm{sim}(z_q, z_j) = \frac{z_q \cdot z_j}{\lVert z_q \rVert \lVert z_j \rVert} $$
+
+$$ z_j \in \mathbb{R}^d $$
+
+where $d$ is the embedding dimension (e.g. $d = 384$).
+
+For $N$ chunks:
+
+$$ Z = \begin{bmatrix} z_1^\top \\ z_2^\top \\ \vdots \\ z_N^\top \end{bmatrix} \in \mathbb{R}^{N \times d} $$
+
+each row corresponding to one chunk.
 
 
 
