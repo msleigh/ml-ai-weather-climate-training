@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a training course repository for "ML and AI for Weather, Climate and Environment" (ECMWF / University of Reading / DWD). The README.md is the primary course document — it contains extensive lecture notes, not just setup instructions. The actual course materials (slides, notebooks, code exercises) live in the `e-ai_ml2` git submodule.
+This is a training course repository for "ML and AI for Weather, Climate and Environment"
+(ECMWF / University of Reading / DWD). The README.md is the primary course document — it
+contains extensive lecture notes, not just setup instructions. The actual course materials
+(slides, notebooks, code exercises) live in the `e-ai_ml2` git submodule.
 
 ## Setup
 

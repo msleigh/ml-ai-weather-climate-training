@@ -2,7 +2,10 @@
 
 ## Context
 
-Consolidating a 20-session ML/AI weather/climate course. Outputs: README.md (lecture notes) and notebooks/scratch.ipynb (code). Original materials in `e-ai_ml2/` submodule. Sessions 1-6 are solid. This plan covers the remaining gaps, ordered by value, with specific content to add based on a thorough review of every course notebook.
+Consolidating a 20-session ML/AI weather/climate course. Outputs: README.md (lecture notes)
+and notebooks/scratch.ipynb (code). Original materials in `e-ai_ml2/` submodule. Sessions 1-6
+are solid. This plan covers the remaining gaps, ordered by value, with specific content to add
+based on a thorough review of every course notebook.
 
 ---
 
@@ -10,11 +13,12 @@ Consolidating a 20-session ML/AI weather/climate course. Outputs: README.md (lec
 
 ### 1. Diffusion — flexible graph networks
 
-**Course ch. 9 / README "Diffusion and Flexible Graph Networks" (~line 991)**
+#### Course ch. 9 / README "Diffusion and Flexible Graph Networks" (~line 991)
 
 Skim: `code09/5_Flex_Graph.ipynb`, `code09/5_Graph_flex_da.ipynb`, `code09/6_Graph_flex_Derivative.ipynb`
 
 **Diffusion notes (minor additions to existing):**
+
 - Closed-form forward: $x_t = \sqrt{\bar{\alpha}_t} x_0 + \sqrt{1-\bar{\alpha}_t} \epsilon$
 - Reverse: NN predicts noise $\epsilon$ given noisy sample + timestep embedding; loss = MSE(predicted, actual noise)
 - Class-conditioned generation via one-hot label concatenation
@@ -37,7 +41,7 @@ Skim: `code09/5_Flex_Graph.ipynb`, `code09/5_Graph_flex_da.ipynb`, `code09/6_Gra
 
 ### 2. AI Data Assimilation — AI-VAR and particle filters
 
-**Course ch. 18 / README "AI Data Assimilation" (~line 1337)**
+#### Course ch. 18 / README "AI Data Assimilation" (~line 1337)
 
 Skim: `code18/1_Inversion_1D.ipynb`, `code18/2_AI-VAR_1d.ipynb`, `code18/4_Lorenz63_DA_AIPF.ipynb`, `code18/5_Lorenz63_DA_AIPF_GM.ipynb`
 
@@ -71,7 +75,7 @@ Skim: `code18/1_Inversion_1D.ipynb`, `code18/2_AI-VAR_1d.ipynb`, `code18/4_Loren
 
 ### 3. RAG — pipeline and FAISS weather example
 
-**Course ch. 7 / README "Retrieval-Augmented Generation" (~line 924)**
+#### Course ch. 7 / README "Retrieval-Augmented Generation" (~line 924)
 
 Skim: `code07/1_vector_db_elementary.ipynb`, `code07/5_icon_faiss_rag.ipynb`
 
@@ -101,7 +105,7 @@ Skim: `code07/1_vector_db_elementary.ipynb`, `code07/5_icon_faiss_rag.ipynb`
 
 ### 4. Physics-informed learning — PINNs, SINDy, constraints, causality
 
-**Course ch. 19 / README "AI and Physics" (~line 1360)**
+#### Course ch. 19 / README "AI and Physics" (~line 1360)
 
 Skim: `code19/01_PINN_sine.ipynb`, `code19/03_Lorenz63_SINDy.ipynb`, `code19/4_RHS_Learning_L63.ipynb`, `code19/5_Physical_Contraint.ipynb`, `code19/6_Causal_Modelling.ipynb`
 
@@ -145,7 +149,7 @@ Skim: `code19/01_PINN_sine.ipynb`, `code19/03_Lorenz63_SINDy.ipynb`, `code19/4_R
 
 ### 5. Anemoi — graph construction and training pipeline
 
-**Course ch. 15 / README "Anemoi: AI-Based Weather Modelling" (~line 1266)**
+#### Course ch. 15 / README "Anemoi: AI-Based Weather Modelling" (~line 1266)
 
 Skim: `code15/4_ERA_T2m_to_ZARR.ipynb`, `code15/5_Simple_Anemoi_Graph.ipynb`, `code15/6_Anemoi_Training.ipynb`
 
@@ -175,7 +179,7 @@ Skim: `code15/4_ERA_T2m_to_ZARR.ipynb`, `code15/5_Simple_Anemoi_Graph.ipynb`, `c
 
 ### 6. Agents — function calling and LangGraph forecast
 
-**Course ch. 10 / README "Agents and Coding with LLMs" (~line 1049)**
+#### Course ch. 10 / README "Agents and Coding with LLMs" (~line 1049)
 
 Skim: `code10/1_function_calling_basics.ipynb`, `code10/7_langgraph_get_forecast.ipynb`
 
@@ -194,7 +198,7 @@ Skim: `code10/1_function_calling_basics.ipynb`, `code10/7_langgraph_get_forecast
 
 ### 7. Multimodal LLMs — ViT encoder and weather applications
 
-**Course ch. 8 / README "Multimodal Large Language Models" (~line 956)**
+#### Course ch. 8 / README "Multimodal Large Language Models" (~line 956)
 
 Skim: `code08/2_multimodal_image_embedding_ViT.ipynb`, `code08/3_radar_composite.ipynb`, `code08/4_cth_interpretation.ipynb`
 
@@ -216,7 +220,7 @@ Skim: `code08/2_multimodal_image_embedding_ViT.ipynb`, `code08/3_radar_composite
 
 ### 8. Learning from Observations — ORIGEN concept
 
-**Course ch. 20 / README "Learning from Observations Only" (~line 1374)**
+#### Course ch. 20 / README "Learning from Observations Only" (~line 1374)
 
 Skim: `code20/2_learn_obs_to_obs.ipynb`, `code20/3_origen_oscillator.ipynb`, `code20/4_origen_L63.ipynb`
 
