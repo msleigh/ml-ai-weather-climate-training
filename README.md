@@ -1,7 +1,35 @@
 # ML and AI for Weather, Climate and Environment Training
 
+[![CI][ci-badge]][ci-link]
+
+Personal working notes and exercises from ML/AI training for weather, climate and
+environmental science, covering Python tooling, PyTorch, RAG, LLM agents, MLOps, CI/CD
+and AI-based weather modelling.
+
+This is a learning and synthesis repository, not a claim of originality for the course
+material (which is attributed to its EUMETNET/DWD source — see
+[Licence and copyright](#licence-and-copyright)). It consolidates that material into a
+reproducible Python environment, runnable notebooks, CI-tested examples, and notes on
+operationalising ML in scientific computing. The focus is on the problems that recur in
+research infrastructure work: reproducibility, experiment tracking, GPU portability,
+data formats, training pipelines, and reliable iteration.
+
+**Status:** active learning repository; selected notes and examples are being cleaned up
+for public readability.
+
+## Quick start
+
+One-command setup (requires [`uv`](https://docs.astral.sh/uv/) and Git):
+
+```bash
+git submodule update --init --recursive && uv venv && source .venv/bin/activate && uv sync
+```
+
+See [Course Scope](#course-scope) for the step-by-step version.
+
 ## Table of Contents
 
+- [Quick start](#quick-start)
 - [Prerequisites](#prerequisites)
 - [Course Scope](#course-scope)
 - [Introduction](#introduction)
@@ -1470,3 +1498,5 @@ Additional material © 2026 by M Sleigh is licensed under [Creative Commons Attr
 [eccodes-py]: https://github.com/ecmwf/eccodes-python
 [pygrib]: https://jswhit.github.io/pygrib/
 [cfgrib]: https://github.com/ecmwf/cfgrib
+[ci-badge]: https://github.com/msleigh/ml-ai-weather-climate-training/actions/workflows/ci.yml/badge.svg
+[ci-link]: https://github.com/msleigh/ml-ai-weather-climate-training/actions/workflows/ci.yml
