@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          version: "0.11.21"
+          enable-cache: true
+
+      - name: Install dev tools
+        run: uv sync --locked --only-group dev --no-install-project
+
+      - name: Run pre-commit (formatting and linting)
+        run: uv run --no-sync pre-commit run --all-files --show-diff-on-failure
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          version: "0.11.21"
+          enable-cache: true
+
+      - name: Resolve and install dependencies
+        run: uv sync --locked
+
+      - name: Byte-compile sources
+        run: uv run python -m compileall -q . -x '(e-ai_ml2|\.venv)'
+
+      - name: Notebook smoke check (optional)
+        continue-on-error: true
+        run: |
+          uv run jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=120 \
+            --output /tmp/smoke.ipynb \
+            notebooks/scratch.ipynb
