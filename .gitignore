@@ -16,3 +16,9 @@ wheels/
 # Data
 *.grib2
 *.grib2.bz2
+
+# RAG example data
+documents/
+vector_db/
+*.index
+*.faiss

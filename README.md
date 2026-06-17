@@ -1146,7 +1146,11 @@ $$ z = \frac{1}{n} \sum_{i=1}^n h_i $$
    > L2-normalised, cosine similarity is the plain dot product. That
    > equivalence is the reason FAISS's `IndexFlatIP` (inner product) works in
    > notebook 5 — after normalising, the inner-product search gives cosine
-   > ranking for free.
+   > ranking for free. If you ever build vectors yourself (or use a
+   > model/encoder that doesn't normalise), you must normalise before
+   > inner-product search, or the ranking wll be wrong. To enforce it:
+   > `embeddings /= np.linalg.norm(embeddings, axis=1, keepdims=True)`
+   > (note `keepdims=True` so the divide broadcasts row-wise).
 3. The query path — how is a query turned into the same kind of vector so it
    can be compared to the stored ones?
    > The query is transformed into a vector in the _same_ embedding space by
@@ -1175,11 +1179,87 @@ $$ Z = \begin{bmatrix} z_1^\top \\ z_2^\top \\ \vdots \\ z_N^\top \end{bmatrix} 
 
 each row corresponding to one chunk.
 
+#### Interpreting similarity scores
 
+Because vectors are normalised:
+
+- Score ≈ 1.0: very similar meaning
+- Score ≈ 0.7: related topic
+- Score < 0.4: weak relation
+
+Exact values depend on:
+
+- chunk size
+- wording
+- abstraction level
+
+The relative ranking matters more than the absolute numbers.
+
+#### Why FAISS?
+
+- Brute-force similarity search compares a query vector against all stored vectors:
+  - Cost: $O(N \cdot d)$ per query
+  - Too slow for large libraries
+
+- FAISS (Facebook AI Similarity Search) provides:
+  - Fast nearest-neighbour search
+  - Optimised C++ backend
+  - Exact or approximate algorithms
+  - CPU and GPU support
+
+See [Debugging a FAISS segfault caused by dual OpenMP runtimes on macOS](https://www.msleigh.io/blog/2026/06/14/debugging-a-faiss-segfault-caused-by-dual-openmp-runtimes-on-macos/) for a gotcha.
 
 ### 7.5 End-to-end RAG pipelines
 
+This step requires an LLM to receive as its prompt the query along with the context from the retrieval step (the text chunks judged most similar to the query), and to generate an answer.
 
+This example uses Ollama. Install:
+
+```bash
+brew install ollama
+```
+
+and start the server:
+
+```bash
+ollama serve
+```
+
+and list the available models:
+
+```bash
+ollama list
+```
+
+Pull an appropriate model with:
+
+```bash
+ollama pull <model>
+```
+
+#### Context assembly
+
+- Loop over the retrieved results in ranked order, and format each chunk into a
+  labelled block that the LLM can read and cite; e.g. the chunk text preceded
+  by a header line with the filename, start and end lines, and similarity score
+- Enforce a character budget (e.g. 12k,but depending on the model's context
+  window) and stop adding chunks once exceeded
+- Contruct prompt; two parts:
+  - System prompt: instruct model to answer strictly from provided context, say
+    if the context is insufficient, end with a "sources" section listing the
+    filename
+  - User prompt: assembled context block followed by query
+
+#### Ollama call
+
+```python
+ollama.chat(
+    model=...,
+    messages=[<systems>, <user>],
+)
+
+return resp["message", "content"]
+```
 
 ## Lecture 8 - Multimodal Large Language Models
 
