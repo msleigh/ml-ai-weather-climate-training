@@ -6,16 +6,16 @@ readme = "README.md"
 requires-python = "==3.11.*"
 # Older versions of PyTorch and NumPy required for Intel CPUs
 dependencies = [
-    "eccodes>=2.45.0",
-    "jupyterlab>=4.5.2",
-    "matplotlib>=3.10.8",
-    "numpy>=2.4.0",
-    "torch>=2.9.1",
-    "requests>=2.32.5",
+    "eccodes>=2.47.0",
+    "jupyterlab>=4.6.0",
+    "matplotlib>=3.11.0",
+    "numpy>=2.4.6",
+    "torch>=2.12.1",
+    "requests>=2.34.2",
     "torchvision>=0.24.1",
-    "pip>=25.3",
+    "pip>=26.1.2",
     "ipywidgets>=8.1.8",
-    "sentence-transformers==5.5.1",
+    "sentence-transformers==5.6.0",
     "faiss-cpu==1.14.3",
 ]
 
